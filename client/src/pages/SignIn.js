@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SignIn () {
+export default function SignIn() {
     return (
         <div className="container flex flex-col h-screen mx-auto">
             <div className="m-auto">
@@ -14,7 +14,7 @@ export default function SignIn () {
                                 </label>
                             </div>
                             <div className="md:w-2/3">
-                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-username" type="text" placeholder="username"  required />
+                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-username" type="text" placeholder="username" autoComplete="username" required />
                             </div>
                         </div>
 
@@ -25,7 +25,7 @@ export default function SignIn () {
                                 </label>
                             </div>
                             <div className="md:w-2/3">
-                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-password" type="password" placeholder="**********"  pattern="^\S{6,}$" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-password" type="password" placeholder="**********" pattern="^\S{6,}$" autoComplete="current-password" required />
                             </div>
                         </div>
 

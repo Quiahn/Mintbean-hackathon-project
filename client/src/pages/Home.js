@@ -3,7 +3,25 @@ import React from 'react'
 export default function Home() {
     return (
         <div>
-            <p className="text-4xl text-center">Landing Page</p>
+            <div className="context">
+                <h1>Pure Css Animated Background</h1>
+            </div>
+
+
+            <div className="area" >
+                <ul className="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div >
         </div>
     )
 }
