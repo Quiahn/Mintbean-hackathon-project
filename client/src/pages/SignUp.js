@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import CheckMarkIcon from '../icons/checkMark'
 import XMarkIcon from '../icons/xMark'
 import axios from 'axios'
+import { Link } from "react-router-dom"
 
 export default function SignUp() {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState()
+    //Empty = 0, Username available = 1, Username Taken = 2
+    const [usernameTaken, setUsernameTaken] = useState(0)
     const [passwordConfirm, setPasswordConfirm] = useState()
     const [everythingValid, setEverythingValid] = useState(false)
     const [validate, setValidate] = useState({
@@ -16,17 +19,24 @@ export default function SignUp() {
         "username_filled": false
     })
 
-    const onButtonClick = (event) => {
-        event.preventDefault()
-        console.log("Sing Up Request Button Clicked")
+    const onButtonClick = () => {
         axios.post("http://localhost:3001/create-user", { username, password })
             .then((res) => {
                 console.log("Sing Up Request: ", res.data)
-                this.props.history.push('/game')
+
             })
 
     }
 
+    const userNameValidation = () => {
+        if (usernameTaken === 1) {
+            return (<small className="text-green-500">available</small>)
+        } else if (usernameTaken === 2) {
+            return (<small className="text-red-500">username taken</small>)
+        }
+        return (null)
+    }
+    //Validating Password
     useEffect(() => {
         // If page changed or refresh in mids t of updating something AbortControl takes care of it
         const abortCtrl = new AbortController();
@@ -70,23 +80,48 @@ export default function SignUp() {
         return () => abortCtrl.abort();
     }, [password, passwordConfirm, username])
 
+    //Check if everything valid yet
     useEffect(() => {
         // If everything is valid
-        if (validate.username_filled && validate.matches && validate.length && validate.contains_let && validate.contains_num) {
+        if (validate.username_filled && validate.matches && validate.length && validate.contains_let && validate.contains_num && usernameTaken === 1) {
             setEverythingValid(true)
         } else {
             setEverythingValid(false)
         }
-    }, [validate])
+    }, [validate, usernameTaken])
+
+    //Check if password already exists
+    useEffect(() => {
+        if (!username) {
+            setUsernameTaken(0)
+            return
+        }
+        console.log("run");
+        const time = setTimeout(() => {
+            axios.post("http://localhost:3001/user-exists", { username })
+                .then((res) => {
+                    console.log("User Exists Request: ", res.data)
+                    if (res.data === "not-taken") {
+                        setUsernameTaken(1)
+                    } else if (res.data === "taken") {
+                        setUsernameTaken(2)
+                    } else {
+                        setUsernameTaken(0)
+                    }
+                })
+                .catch(console.log)
+        }, 300);
+
+        return () => clearInterval(time)
+    }, [usernameTaken, username])
 
 
     const markIcon = (isValidated) => {
         return isValidated ? <CheckMarkIcon className={"w-1/4 h-4 fill-current text-green-500"} /> : <XMarkIcon className={"w-1/4 h-4 fill-current text-red-500"} />
     }
 
-
     return (
-        <div className=" container flex sm:h-screen m-auto">
+        <div className="flex sm:h-screen m-auto">
             <div className="m-auto sm:shadow sm:border-2 border-opacity-50  ">
                 <div className="p-10 ">
                     <p className="text-center mb-8 text-3xl">Create Account</p>
@@ -100,7 +135,9 @@ export default function SignUp() {
                             <div className="md:w-2/3">
                                 <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-username" type="text" placeholder="username" autoComplete="username" required
                                     onChange={(event) => setUsername(event.target.value)} />
+                                {userNameValidation()}
                             </div>
+
                         </div>
 
                         <div className="md:flex md:items-center mb-6">
@@ -131,9 +168,11 @@ export default function SignUp() {
                         <div className="md:flex md:items-center">
                             <div className="md:w-1/3"></div>
                             <div className="md:w-2/3">
-                                <button disabled={!everythingValid} className={"shadow-md bg-indigo-500 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 disabled:bg-indigo-100 rounded "} id="sign-up-btn" type="submit" onClick={onButtonClick}>
-                                    Sign Up
-                                </button>
+                                <Link to="/signin">
+                                    <button disabled={!everythingValid} className={"d-block-inline shadow-md bg-indigo-500 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 disabled:bg-indigo-100 rounded "} id="sign-up-btn" type="submit" onClick={onButtonClick}>
+                                        Sign Up
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </form>
