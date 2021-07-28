@@ -1,9 +1,11 @@
+require('dotenv').config()
 const express = require("express");
 const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient
 // Variables
-const uri = "mongodb+srv://cluster0.q9qwv.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority";
 const app = express();
+const uri = process.env.DB_URI
+
 
 app.use(cors())
 //TODO: READ AND LEARN WHAT THIS SHIT IS
@@ -15,7 +17,7 @@ app.use(express.urlencoded({
 MongoClient.connect(uri, { useUnifiedTopology: true })
 	.then(client => {
 		console.log('Connected to Database')
-		const collection = client.db('shopping-list').collection('user')
+		const collection = client.db('Hackathon').collection('user')
 
 		//Creates user
 		app.post('/create-user', (req, res) => {
@@ -28,6 +30,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true })
 				"username": username,
 				"password": password
 			})
+            
 		})
 
 		//Login
@@ -36,8 +39,6 @@ MongoClient.connect(uri, { useUnifiedTopology: true })
 		//Delete Shopping List
 		//...
 	})
-	.catch(err => {
-		console.log('ERROR')
-	})
+	.catch(console.error)
 
 app.listen(3001)

@@ -1,10 +1,11 @@
-import SignIn from "./pages/SingIn";
-import SignUp from "./pages/SingUp";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Navbar from "./misc/navbar";
 function App() {
   return (
     <div className="App">
-        <SignUp/>
-       
+      <Navbar/>
+      <SignUp/>
     </div>
   );
 }

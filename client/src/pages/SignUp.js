@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios'
 import CheckMarkIcon from '../icons/checkMark'
 import XMarkIcon from '../icons/xMark'
+import { onSignUp } from '../misc/api';
 
 export default function SignUp () {
     const [username, setUsername] = useState();
@@ -18,10 +18,7 @@ export default function SignUp () {
     const onButtonClick = (event) => {
         event.preventDefault()
         console.log("Sing Up Request Button Clicked")
-        axios.post("http://localhost:3001/create-user", { username, password })
-            .then((res) => {
-                console.log(res.data)
-            })
+        onSignUp(username, password)
     }
 
     const onPasswordFieldChange = (event) => {
