@@ -5,42 +5,42 @@ import Error from "./pages/Error";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Navbar from "./misc/Navbar";
-import {Switch,Route} from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 function App() {
-    return (
 
+    return (
         <div className="App">
             <Navbar />
-            
-                <Switch>
 
-                    <Route path="/" exact>
-                        <Home />
-                    </Route>
+            <Switch>
 
-                    <Route path="/signup">
-                        <SignUp />
-                    </Route>
+                <Route path="/" exact>
+                    <Home />
+                </Route>
 
-                    <Route path="/signin">
-                        <SignIn />
-                    </Route>
+                <Route path="/signup">
+                    <SignUp />
+                </Route>
 
-                    <Route path="/game">
-                        <Game />
-                    </Route>
+                <Route path="/signin">
+                    <SignIn />
+                </Route>
 
-                    <Route path="/about">
-                        <About />
-                    </Route>
+                <Route path="/game">
+                    <Game />
+                </Route>
 
-                    <Route>
-                        <Error />
-                    </Route>
+                <Route path="/about">
+                    <About />
+                </Route>
 
-                </Switch>
-            
+                <Route>
+                    <Error />
+                </Route>
+
+            </Switch>
+
         </div>
 
     );
