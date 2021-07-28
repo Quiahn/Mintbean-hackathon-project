@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CheckMarkIcon from '../icons/checkMark'
 import XMarkIcon from '../icons/xMark'
 import { onSignUp } from '../misc/api';
 
-export default function SignUp () {
+export default function SignUp() {
     const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-
+    const [password, setPassword] = useState()
+    const [passwordConfirm, setPasswordConfirm] = useState()
+    const [everythingValid, setEverythingValid] = useState(false)
     const [validate, setValidate] = useState({
-        "length": true,
-        "contains_num": true,
-        "contains_let": true,
-        "matches": true,
-        "everything_valid": true,
+        "length": false,
+        "contains_num": false,
+        "contains_let": false,
+        "matches": false,
+        "username_filled": false
     })
 
     const onButtonClick = (event) => {
@@ -21,30 +22,68 @@ export default function SignUp () {
         onSignUp(username, password)
     }
 
-    const onPasswordFieldChange = (event) => {
-
-        const firstPassword = document.getElementById('inline-password').value
-        const secondPassword = document.getElementById('inline-password-check').value
-        if (secondPassword === firstPassword) {
-            document.getElementById('sign-up-btn').disabled = false
-            event.target.setCustomValidity("")
-            event.target.reportValidity();
-
+    useEffect(() => {
+        // If page changed or refresh in mids t of updating something AbortControl takes care of it
+        const abortCtrl = new AbortController();
+        
+        // If username is empty
+        if (username && username.length > 3) {
+            setValidate(prevValidate => ({ ...prevValidate, username_filled: true }))
         } else {
-            document.getElementById('sign-up-btn').disabled = true
-            event.target.setCustomValidity("Passwords Don't Match")
-            event.target.reportValidity();
+            setValidate(prevValidate => ({ ...prevValidate, username_filled: false }))
         }
-    }
+
+        // If both password inputs have the same value, use checkmark otherwise xmark
+        if (password === passwordConfirm && password) {
+            setValidate(prevValidate => ({ ...prevValidate, matches: true }))
+        } else {
+            setValidate(prevValidate => ({ ...prevValidate, matches: false }))
+        }
+
+        // If password is more than 8 chars
+        if (password && password.length > 8) {
+            setValidate(prevValidate => ({ ...prevValidate, length: true }))
+        } else {
+            setValidate(prevValidate => ({ ...prevValidate, length: false }))
+        }
+
+        // If password contains number
+        if (password && (/\d/).test(password)) {
+            setValidate(prevValidate => ({ ...prevValidate, contains_num: true }))
+        } else {
+            setValidate(prevValidate => ({ ...prevValidate, contains_num: false }))
+        }
+
+        // If password contains a letter
+        if (password && (/\w/).test(password)) {
+            setValidate(prevValidate => ({ ...prevValidate, contains_let: true }))
+        } else {
+            setValidate(prevValidate => ({ ...prevValidate, contains_let: false }))
+        }
+
+        // Return runs when the component unmounts
+        return () => abortCtrl.abort();
+    }, [password, passwordConfirm, username])
+
+    useEffect(() => {
+        // If everything is valid
+        if ( validate.username_filled && validate.matches && validate.length && validate.contains_let && validate.contains_num ) {
+            setEverythingValid(true)
+        } else {
+            setEverythingValid(false)
+        }
+    }, [validate])
+
 
     const markIcon = (isValidated) => {
         return isValidated ? <CheckMarkIcon className={"w-1/4 h-4 fill-current text-green-500"} /> : <XMarkIcon className={"w-1/4 h-4 fill-current text-red-500"} />
     }
 
+
     return (
         <div className="container flex flex-col h-screen mx-auto">
             <div className="m-auto">
-                
+
                 <div className="sm:shadow p-10 sm:border-2 border-opacity-50">
                     <p className="text-center mb-8 text-3xl">Create Account</p>
                     <form className="max-w-md m-0 p-0" id="user-form">
@@ -55,7 +94,8 @@ export default function SignUp () {
                                 </label>
                             </div>
                             <div className="md:w-2/3">
-                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-username" type="text" placeholder="username" onChange={(event) => setUsername(event.target.value)} required />
+                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-username" type="text" placeholder="username" autoComplete="username" required
+                                    onChange={(event) => setUsername(event.target.value)} />
                             </div>
                         </div>
 
@@ -66,7 +106,7 @@ export default function SignUp () {
                                 </label>
                             </div>
                             <div className="md:w-2/3">
-                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-password" type="password" placeholder="**********" onChange={(event) => { setPassword(event.target.value) }} pattern="^\S{6,}$" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+                                <input type="password" name="password" className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-password" placeholder="**********" pattern="^\S{6,}$"  autoComplete="new-password" required onChange={(event) => setPassword(event.target.value)}  />
                             </div>
                         </div>
 
@@ -77,7 +117,8 @@ export default function SignUp () {
                                 </label>
                             </div>
                             <div className="md:w-2/3">
-                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-password-check" type="password" placeholder="**********" required onChange={(event) => console.log(event.target.value)} />
+                                <input className="shadow bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-300" id="inline-password-check" type="password" placeholder="**********" required autoComplete="new-password"
+                                    onChange={(event) => setPasswordConfirm(event.target.value)} />
                             </div>
 
                         </div>
@@ -86,23 +127,27 @@ export default function SignUp () {
                         <div className="md:flex md:items-center">
                             <div className="md:w-1/3"></div>
                             <div className="md:w-2/3">
-                                <button disabled={!validate.everything_valid} className="disabled:bg-indigo-100 shadow-md bg-indigo-500 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" id="sign-up-btn" type="submit" onClick={onButtonClick}>
+                                <button disabled={!everythingValid} className={"shadow-md bg-indigo-500 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 disabled:bg-indigo-100 rounded "} id="sign-up-btn" type="submit" onClick={onButtonClick}>
                                     Sign Up
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div className={"sm:shadow mt-4 p-10 sm:border-2 border-opacity-50 " + ((validate.everything_valid) ? "bg-green-50" : "bg-red-50")}>
-                    <p className="text-center text-xl">Password Requirements</p>
-                    <div className="flex  flex-col mt-6 content-center">
+                <div className={"sm:shadow mt-4 p-10 sm:border-2 border-opacity-50 " + ((everythingValid) ? "bg-green-50" : "bg-red-50")}>
+                    <p className="text-center text-xl">Requirements</p>
+                    <div className="flex  flex-col mt-4 content-center">
+                        <div className="flex items-center my-2">
+                            {markIcon(validate.username_filled)}
+                            <p className="w-3/4">Username must be more than 3 characters</p>
+                        </div>
                         <div className="flex items-center my-2">
                             {markIcon(validate.length)}
-                            <p className="w-3/4">Contains more than 7 characters</p>
+                            <p className="w-3/4">Contains more than 8 characters</p>
                         </div>
                         <div className="flex items-center my-2">
                             {markIcon(validate.contains_num)}
-                            <p className="w-3/4">Contain atlest 1 number</p>
+                            <p className="w-3/4">Contain at least 1 number</p>
                         </div>
                         <div className="flex items-center my-2">
                             {markIcon(validate.contains_let)}
@@ -112,9 +157,7 @@ export default function SignUp () {
                             {markIcon(validate.matches)}
                             <p className="w-3/4">Passwords should match</p>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>

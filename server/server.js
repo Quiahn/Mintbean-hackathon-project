@@ -23,6 +23,8 @@ MongoClient.connect(uri, { useUnifiedTopology: true })
 		app.post('/create-user', (req, res) => {
 			console.log(req.body)
 
+            const regex = / (?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+
 			const username = req.body.username
 			const password = req.body.password
 
