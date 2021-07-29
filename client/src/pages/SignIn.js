@@ -1,20 +1,35 @@
 import React, { useState } from 'react';
 import axios from 'axios'
+import { useHistory } from 'react-router';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export default function SignIn() {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
+    const [status, setStatus] = useState("")
 
+    let history = useHistory();
 
     const onButtonClick = (event) => {
-        event.preventDefault()
+        setStatus("pending")
         if (!username || !password) return
-        axios.post("http://localhost:3001/login-user", { username, password })
+        axios.post(process.env.REACT_APP_SERVER_URI + "/api/user/login", { username, password })
             .then((res) => {
+                const token = res.headers['auth-token']
                 console.log("Log In Request: ", res.data)
+                setStatus("success")
+                cookies.set("token", token)
+                history.replace("/game")
             })
-
+            .catch(error => {
+                console.log(error.response);
+                if (error.response)
+                    setStatus(error.response.data)
+            })
     }
+
     return (
         <div className="container flex flex-col h-screen mx-auto">
             <div className="m-auto">
@@ -47,13 +62,15 @@ export default function SignIn() {
                         <div className="md:flex md:items-center">
                             <div className="md:w-1/3"></div>
                             <div className="md:w-2/3">
-                                <button className="disabled:bg-indigo-100 shadow-md bg-indigo-500 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" id="sign-up-btn" type="submit" onClick={onButtonClick}>
+
+                                <button className="disabled:bg-indigo-100 shadow-md bg-indigo-500 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" id="sign-up-btn" type="button" onClick={onButtonClick}>
                                     Sign In
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
+                <p className="text-center text-indigo-400 my-6 text-xs">{status}</p>
             </div>
         </div>
     )
