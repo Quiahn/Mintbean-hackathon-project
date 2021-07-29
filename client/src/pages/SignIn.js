@@ -14,7 +14,7 @@ export default function SignIn() {
 
     const onButtonClick = (event) => {
         setStatus("pending")
-        if (!username || !password) return
+        if (!username || !password) return setStatus("Username & Password required")
         axios.post(process.env.REACT_APP_SERVER_URI + "/api/user/login", { username, password })
             .then((res) => {
                 const token = res.headers['auth-token']
