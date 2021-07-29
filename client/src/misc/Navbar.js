@@ -1,10 +1,17 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState } from 'react';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export default function Navbar() {
   const [active, setActive] = useState(false);
 
+
+  const logOut = () => {
+    cookies.remove("token")
+  }
   const handleClick = () => {
     setActive(!active);
   };
@@ -39,28 +46,34 @@ export default function Navbar() {
 
       <div className={`${active ? '' : 'hidden'}   w-full lg:inline-flex lg:flex-grow lg:w-auto`}>
         <div className='lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-center  flex flex-col lg:h-auto'>
-          <Link to={`/`} className="" onClick={handleClick}>
-            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white '>
+          <NavLink to={`/`} exact activeClassName="bg-indigo-600" onClick={handleClick}>
+            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-600 hover:text-white '>
               <p>Home</p>
             </div>
-          </Link>
-          <Link to={`/about`} className="" onClick={handleClick}>
-            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white'>
+          </NavLink>
+          <NavLink to={`/about`} activeClassName="bg-indigo-600" onClick={handleClick}>
+            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-600 hover:text-white'>
               <p>About us</p>
             </div>
-          </Link>
+          </NavLink>
 
-          <Link to={`/signin`} className="" onClick={handleClick}>
-            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white'>
+          <NavLink to={`/signin`} activeClassName="bg-indigo-600" onClick={handleClick}>
+            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-600 hover:text-white'>
               <p>Sign In</p>
             </div>
-          </Link>
+          </NavLink>
 
-          <Link to={`/signup`} className="" onClick={handleClick}>
-            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-green-600 hover:text-white'>
+          <NavLink to={`/signup`} activeClassName="bg-indigo-600" onClick={handleClick}>
+            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-600 hover:text-white'>
               <p>Create Account</p>
             </div>
-          </Link>
+          </NavLink>
+
+          <NavLink to={`/`} className="" replace onClick={() => { handleClick(); logOut() }}>
+            <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-600 hover:text-white'>
+              <p>Log Out</p>
+            </div>
+          </NavLink>
 
         </div>
       </div>

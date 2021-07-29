@@ -20,7 +20,7 @@ export default function SignUp() {
     })
 
     const onButtonClick = () => {
-        axios.post("http://localhost:3001/create-user", { username, password })
+        axios.post(process.env.REACT_APP_SERVER_URI + "/api/user/register", { username, password })
             .then((res) => {
                 console.log("Sing Up Request: ", res.data)
 
@@ -98,12 +98,12 @@ export default function SignUp() {
         }
         console.log("run");
         const time = setTimeout(() => {
-            axios.post("http://localhost:3001/user-exists", { username })
+            axios.post(process.env.REACT_APP_SERVER_URI + "/api/user/username-availability", { username })
                 .then((res) => {
                     console.log("User Exists Request: ", res.data)
-                    if (res.data === "not-taken") {
+                    if (!res.data.userExist) {
                         setUsernameTaken(1)
-                    } else if (res.data === "taken") {
+                    } else if (res.data.userExist) {
                         setUsernameTaken(2)
                     } else {
                         setUsernameTaken(0)
