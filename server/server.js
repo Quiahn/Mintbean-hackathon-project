@@ -3,16 +3,24 @@ const express = require("express");
 const cors = require('cors')
 const app = express();
 const mongoose = require('mongoose');
+const http = require('http').Server(app)
+const io = require('socket.io')(http, {
+	cors: {
+		origin: "*",
+		methods: ["GET", "POST"],
+		allowedHeaders: ["my-custom-header"],
+		credentials: true
+	}
+})
 
 //Import Routes
 const authRoute = require('./routes/auth')
-const gameRouter = require('./routes/game')
-
+const gameRouter = require('./routes/game');
 
 //Connect to DB
 const mongooseOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 mongoose.connect(process.env.DB_URI, mongooseOptions, () => {
-	console.log('connected to db!')
+	console.log('Server connected to the database')
 })
 
 
@@ -29,4 +37,25 @@ app.use('/api/user', authRoute)
 app.use('/api/game', gameRouter)
 
 
-app.listen(3001, () => console.log('Server is up and running'))
+//Socket
+io.on("connection", (socket) => {
+	console.log("User connected: ", socket.id)
+	socket.on("message", (data) => {
+		console.log(data)
+		socket.broadcast.emit("message", data)
+	})
+
+	socket.on("disconnect", () => {
+		console.log("User disconnected")
+	})
+
+	socket.on("disconnected", (socketss) => {
+		console.log("User disconnected: ", socketss)
+	})
+});
+
+
+
+//Port
+const PORT = 3001 || process.env.PORT
+http.listen(PORT, () => console.log(`Server is up and running at port ${PORT}`))
