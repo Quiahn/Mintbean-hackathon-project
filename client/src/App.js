@@ -10,42 +10,43 @@ import { Switch, Route } from "react-router-dom";
 function App() {
 
     return (
-        <div className="flex flex-col h-screen">
+        <>
 
-            <Navbar />
-            <Switch>
+            <div className="flex flex-col h-screen">
+                <Navbar />
+                <Switch>
 
-                <Route path="/" exact>
-                    <div className="container-card-ani">
-                        <Home />
-                    </div>
+                    <Route path="/" exact>
+                        <div className="">
+                            <Home />
+                        </div>
 
-                </Route>
+                    </Route>
 
-                <Route path="/signup">
-                    <SignUp />
-                </Route>
+                    <Route path="/signup">
+                        <SignUp />
+                    </Route>
 
-                <Route path="/signin">
-                    <SignIn />
-                </Route>
+                    <Route path="/signin">
+                        <SignIn />
+                    </Route>
 
-                <Route path="/game">
-                    <Game />
-                </Route>
+                    <Route path="/game">
+                        <Game />
+                    </Route>
 
-                <Route path="/about">
-                    <About />
-                </Route>
+                    <Route path="/about">
+                        <About />
+                    </Route>
 
-                <Route>
-                    <Error />
-                </Route>
+                    <Route>
+                        <Error />
+                    </Route>
 
-            </Switch>
+                </Switch>
 
-        </div>
-
+            </div>
+        </>
     );
 }
 //<Navbar />

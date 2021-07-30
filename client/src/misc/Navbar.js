@@ -17,7 +17,7 @@ export default function Navbar() {
   };
   return (
 
-    <nav className='sticky top-0 flex items-center flex-wrap bg-indigo-900 p-3 '>
+    <nav className='sticky z-50 top-0 flex items-center flex-wrap bg-indigo-900 p-3 '>
 
       <div className='inline-flex items-center p-2 mr-4 '>
         <span className='text-sm sm:text-xl text-white font-bold uppercase tracking-wide'>
