@@ -11,12 +11,15 @@ function App() {
 
     return (
         <div className="flex flex-col h-screen">
-            <Navbar />
 
+            <Navbar />
             <Switch>
 
                 <Route path="/" exact>
-                    <Home />
+                    <div className="container-card-ani">
+                        <Home />
+                    </div>
+
                 </Route>
 
                 <Route path="/signup">
@@ -45,5 +48,5 @@ function App() {
 
     );
 }
-
+//<Navbar />
 export default App;
