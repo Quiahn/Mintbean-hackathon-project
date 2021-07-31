@@ -36,6 +36,7 @@ const blueDeck = (blueP, moveId, allMove, flipCard) => {
     ));
 }
 
+
 export default function About() {
     const [redP, setRedP] = useState(redPositions.at_middle)
     const [blueP, setBlueP] = useState(bluePositions.at_middle)
@@ -43,6 +44,26 @@ export default function About() {
     const [moveId, setMoveId] = useState(0)
     const [allMove, setAllMove] = useState(true)
     const [playPool, setPlayPool] = useState([])
+    const [atWar, setAtWar] = useState('')
+    const [test, setTest] = useState('')
+    const [idBeforeWar, setIdBeforeWar] = useState(null)
+
+
+    useEffect(() => {
+        if (atWar === 'war-over') {
+            if (playPool.length === 0) return
+            setIdBeforeWar(prevValue => prevValue + 1)
+            console.log(idBeforeWar);
+            let e = playPool
+            setMoveId(e.pop())
+            setRedP(redPositions.at_win_stack);
+            setBlueP(bluePositions.at_loss_stack);
+            setPlayPool(e)
+            setTest(prevTest => !prevTest)
+        }
+
+        // eslint-disable-next-line
+    }, [atWar, playPool, moveId, test])
 
     useEffect(() => {
         if (moveId > 26) {
@@ -54,42 +75,75 @@ export default function About() {
         setAllMove(false)
     }, [moveId])
 
+
+    useEffect(() => {
+        if (atWar === 'war-started' && !playPool.includes(moveId)) {
+            setPlayPool([...playPool, moveId])
+        }
+
+    }, [atWar, moveId, playPool])
+
     function atHand() {
+
         setMoveId(0);
         setAllMove(true);
         setRedP(redPositions.at_hand);
         setBlueP(bluePositions.at_hand)
     }
 
-    function atShuffle(params) {
+    function atShuffle() {
         setMoveId(0);
         setAllMove(true);
         setRedP(redPositions.at_shuffle);
         setBlueP(bluePositions.at_shuffle)
     }
 
-    function atMiddle(params) {
+    function atMiddle() {
         setMoveId(0);
         setAllMove(true);
         setRedP(redPositions.at_middle);
         setBlueP(bluePositions.at_middle);
     }
 
-    function atPlay(params) {
-        setMoveId((moveId) => moveId + 1);
+    function atPlay() {
+        if (atWar === 'war-over') {
+            setMoveId(idBeforeWar)
+            setAtWar('')
+        }
+
+
+        setFlip(true)
         setAllMove(false);
         setRedP(redPositions.at_play);
         setBlueP(bluePositions.at_play)
+        setMoveId((prevMov) => prevMov + 1);
     }
-    function atBlueWin(params) {
+    function atBlueWin() {
+        setFlip(false)
         setAllMove(false);
-        setRedP(redPositions.at_loss_stack);
         setBlueP(bluePositions.at_win_stack);
+        setRedP(redPositions.at_loss_stack);
     }
-    function atRenWin(params) {
+    function atRedWin() {
+        setFlip(false)
         setAllMove(false);
         setRedP(redPositions.at_win_stack);
         setBlueP(bluePositions.at_loss_stack);
+    }
+
+    function atWarPlay() {
+        setFlip(false)
+        setAllMove(false);
+        setRedP(redPositions.at_play);
+        setBlueP(bluePositions.at_play)
+        //setAtWar('war-started')
+        setMoveId((prevMov) => prevMov + 1);
+    }
+
+
+
+    async function atRedWinWar() {
+
     }
 
 
@@ -98,7 +152,7 @@ export default function About() {
 
     return (
         <div className={"h-full flex flex-col overflow-hidden "}>
-            <div className="h-5/6 w-full bg-indigo-50  overflow-hidden relative">
+            <div className="h-5/6 w-full bg-indigo-50  overflow-hidden relative transform-gpu">
                 {redDeck(redP, moveId, allMove, flip)}
                 {blueDeck(blueP, moveId, allMove, flip)}
             </div>
@@ -107,12 +161,16 @@ export default function About() {
             <button onClick={() => atMiddle()}>atMiddle</button>
             <button onClick={() => atPlay()}>atPlay</button>
             <button onClick={() => atBlueWin()}>atBlueWin</button>
-            <button onClick={() => atRenWin()}>atRedWin</button>
+            <button onClick={() => atRedWin()}>atRedWin</button>
+            <button onClick={() => { setAtWar('war-started'); setIdBeforeWar(moveId) }}>War Started</button>
+            <button onClick={() => atWarPlay()}>At War Play</button>
+            <button onClick={() => atRedWinWar()}>At Red Win</button>
+            <button onClick={() => { setAtWar('war-over') }}>War Finished</button>
         </div>
     )
+
+
 }
-
-
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
