@@ -82,6 +82,9 @@ export default function About() {
     const initCardArrBlue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
     const initCardArrRed = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
 
+    //Game Logic States 
+
+
     //Positions
     const [redPos, setRedPos] = useState(redPositions.at_hand)
     const [bluePos, setBluePos] = useState(bluePositions.at_hand)
@@ -108,21 +111,21 @@ export default function About() {
         setBluePos(bluePositions.at_play)
         //Blue
         let placeHoldBlue = blueAtHand
-        let blue = placeHoldBlue.pop();
+        let ranBlue = getRandomInt(0, blueAtHand.length)
+        let blue = placeHoldBlue[ranBlue];
+        placeHoldBlue.splice(ranBlue, 1)
         setBlueId(blue)
         setBlueAtPlay([...blueAtPlay, blue])
         setBlueAtHand(placeHoldBlue)
     }
 
     function playRed() {
-        if (!redAtHand || redAtHand.length === 0) {
-            reset()
-        }
         setRedPos(redPositions.at_play)
         //Red
         let placeHoldRed = redAtHand
-        let red = placeHoldRed.pop();
-        console.log(" pop ", red)
+        let ranRed = getRandomInt(0, redAtHand.length)
+        let red = placeHoldRed[ranRed];
+        placeHoldRed.splice(ranRed, 1)
         setRedId(red)
         setRedAtPlay([...redAtPlay, red])
         setRedAtHand(placeHoldRed)
@@ -189,6 +192,17 @@ export default function About() {
         setBlueId(blue)
         setBlueAtWin([...blueAtWin, blue])
         setBlueAtPlay(placeHoldBlue)
+    }
+
+    async function play() {
+        if (allMove) setAllMove()
+        setTimeout(() => {
+
+            setTimeout(() => {
+                console.log(1);
+            }, 400);
+            console.log(2);
+        }, 400)
     }
     return (
         <div className={"h-full flex flex-col overflow-hidden "}>
@@ -264,7 +278,7 @@ export default function About() {
                 <button onClick={() => playRed()} className="m-2 h-10 bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Play Red</button>
                 <button onClick={() => redWin()} className="m-2 h-10 bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enemy Wins</button>
                 <button onClick={() => reset()} className="m-2 h-10 bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Restart</button>
-
+                <button onClick={() => play()} className="m-2 h-10 bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> || PLAY ||</button>
 
             </div>
         </div>
@@ -273,5 +287,6 @@ export default function About() {
 
 }
 function getRandomInt(min, max) {
+    if (min === max) return max
     return Math.floor(Math.random() * (max - min) + min);
 }

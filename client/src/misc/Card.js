@@ -20,7 +20,7 @@ export default function Card({ cardPos, cardFlip, rotation, id, moveId, allMove,
 
     const { transform, opacity } = useSpring({
         opacity: (moveId === id) ? (cardFlip ? 0 : 1) : null,
-        transform: (moveId === id) ? `perspective(600px) rotateY(${cardFlip ? 0 : 180}deg) scaleX(1)` : null,
+        transform: (moveId === id) ? `perspective(600px) rotateY(${cardFlip ? 0 : 180}deg) scaleX(${cardFlip ? 1 : -1})` : null,
         config: { mass: 5, tension: 500, friction: 80 },
     })
 
