@@ -57,24 +57,7 @@ import s13 from '../icons/s-k.jpg'
 import sA from '../icons/s-a.jpg'
 
 
-const bluePositions = {
-    at_hand: { top: `100%`, left: `60%`, "filter": "brightness(100%)" },
-    at_play: { top: `50%`, left: `60%`, "filter": "brightness(100%)" },
-    at_win_stack: { top: `90%`, left: `10%`, "filter": "brightness(50%)" },
-    at_loss_stack: { top: `10%`, left: `90%`, "filter": "brightness(50%)" },
-    at_shuffle: { top: `50%`, left: `10%`, "filter": "brightness(100%)" },
-    at_middle: { top: `50%`, left: `50%`, "filter": "brightness(100%)" }
-}
 
-
-const redPositions = {
-    at_hand: { top: `0%`, left: `40%`, "filter": "brightness(100%)" },
-    at_play: { top: `50%`, left: `40%`, "filter": "brightness(100%)" },
-    at_win_stack: { top: `10%`, left: `90%`, "filter": "brightness(50%)" },
-    at_loss_stack: { top: `90%`, left: `10%`, "filter": "brightness(50%)" },
-    at_shuffle: { top: `50%`, left: `10%`, "filter": "brightness(100%)" },
-    at_middle: { top: `50%`, left: `50%`, "filter": "brightness(100%)" }
-}
 
 export default function About() {
 

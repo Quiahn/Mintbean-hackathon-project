@@ -7,11 +7,30 @@ import backImg from '../icons/card-back-v2.jpg'
 //Clubs
 //Spades
 //Diamonds
+const bluePositions = {
+    at_hand: { top: `100%`, left: `60%`, "filter": "brightness(100%)" },
+    at_play: { top: `50%`, left: `60%`, "filter": "brightness(100%)" },
+    at_win_stack: { top: `90%`, left: `10%`, "filter": "brightness(50%)" },
+    at_loss_stack: { top: `10%`, left: `90%`, "filter": "brightness(50%)" },
+    at_shuffle: { top: `50%`, left: `10%`, "filter": "brightness(100%)" },
+    at_middle: { top: `50%`, left: `50%`, "filter": "brightness(100%)" }
+}
 
-export default function Card({ cardPos, cardFlip, rotation, id, moveId, allMove, url }) {
+
+const redPositions = {
+    at_hand: { top: `0%`, left: `40%`, "filter": "brightness(100%)" },
+    at_play: { top: `50%`, left: `40%`, "filter": "brightness(100%)" },
+    at_win_stack: { top: `10%`, left: `90%`, "filter": "brightness(50%)" },
+    at_loss_stack: { top: `90%`, left: `10%`, "filter": "brightness(50%)" },
+    at_shuffle: { top: `50%`, left: `10%`, "filter": "brightness(100%)" },
+    at_middle: { top: `50%`, left: `50%`, "filter": "brightness(100%)" }
+}
+
+export default function Card({ cardPos, isRed, cardFlip, rotation, id, moveId, allMove, url }) {
+
     const props = useSpring({
         to: (allMove || (moveId === id)) ? {
-            ...cardPos,
+            ...getPos(cardPos, isRed),
             transformOrigin: "center, center",
             transform: `rotate(${rotation}deg) translate(-50%, -50%)`,
         } : null,
@@ -40,4 +59,29 @@ export default function Card({ cardPos, cardFlip, rotation, id, moveId, allMove,
 
         </animated.div>
     )
+}
+
+
+function getPos(name, isRed) {
+    let position = null
+    switch (name) {
+        case 'at_hand':
+            position = (isRed) ? redPositions.at_hand : bluePositions.at_hand
+            break;
+        case 'at_play':
+            position = (isRed) ? redPositions.at_play : bluePositions.at_play
+            break;
+        case 'at_win':
+            position = (isRed) ? redPositions.at_win_stack : bluePositions.at_win_stack
+            break;
+        case 'at_loss':
+            position = (isRed) ? redPositions.at_loss_stack : bluePositions.at_loss_stack
+            break;
+        case 'at_shuffle':
+            position = (isRed) ? redPositions.at_shuffle : bluePositions.at_shuffle
+            break;
+        default:
+            position = (isRed) ? redPositions.at_middle : bluePositions.at_middle
+            break;
+    }
 }
