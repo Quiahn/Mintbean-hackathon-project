@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Card from '../misc/Card';
 import c2 from '../icons/c-2.jpg'
 import c3 from '../icons/c-3.jpg'
@@ -179,21 +179,33 @@ export default function About() {
     }
 
     function clearTable() {
-        //Red
-        let placeHoldRed = redAtPlay
-        let red = placeHoldRed.pop();
-        setRedId(red)
-        setRedAtWin([...redAtWin, red])
-        setRedAtPlay(placeHoldRed)
-
-        //Blue
-        let placeHoldBlue = blueAtPlay
-        let blue = placeHoldBlue.pop();
-        setBlueId(blue)
-        setBlueAtWin([...blueAtWin, blue])
-        setBlueAtPlay(placeHoldBlue)
+        //return new Promise(resolve => {
+        setTimeout(() => {
+            //Red
+            let placeHoldRed = redAtPlay
+            let red = placeHoldRed.pop();
+            setRedId(red)
+            setRedAtWin([...redAtWin, red])
+            setRedAtPlay(placeHoldRed)
+            console.log('')
+            //Blue
+            let placeHoldBlue = blueAtPlay
+            let blue = placeHoldBlue.pop();
+            setBlueId(blue)
+            setBlueAtWin(prevBlueAtWin => [...prevBlueAtWin, blue])
+            setBlueAtPlay(prev => placeHoldBlue)
+            console.log('resolved')
+        }, 200);
+        // })
     }
 
+    function clearTableLoopPromise() {
+        let test = redAtHand.length
+        for (let index = 0; index < test; index++) {
+            const result = clearTable()
+            console.log(result)
+        }
+    }
     async function play() {
         if (allMove) setAllMove()
         setTimeout(() => {
@@ -204,6 +216,25 @@ export default function About() {
             console.log(2);
         }, 400)
     }
+
+    useEffect(() => {
+
+        console.log('ha');
+        //Red
+        let placeHoldRed = redAtPlay
+        let red = placeHoldRed.pop();
+        setRedId(red)
+        setRedAtWin([...redAtWin, red])
+        setRedAtPlay(placeHoldRed)
+        console.log('')
+        //Blue
+        let placeHoldBlue = blueAtPlay
+        let blue = placeHoldBlue.pop();
+        setBlueId(blue)
+        setBlueAtWin([...blueAtWin, blue])
+        setBlueAtPlay(placeHoldBlue)
+
+    }, [redAtPlay])
     return (
         <div className={"h-full flex flex-col overflow-hidden "}>
             <div className="h-5/6 w-full bg-indigo-50  overflow-hidden relative transform-gpu">
@@ -279,6 +310,7 @@ export default function About() {
                 <button onClick={() => redWin()} className="m-2 h-10 bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enemy Wins</button>
                 <button onClick={() => reset()} className="m-2 h-10 bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Restart</button>
                 <button onClick={() => play()} className="m-2 h-10 bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> || PLAY ||</button>
+                <button onClick={() => clearTableLoopPromise()} className="m-2 h-10 bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> || Clear Table ||</button>
 
             </div>
         </div>
