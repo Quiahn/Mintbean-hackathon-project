@@ -1,87 +1,48 @@
 import React from 'react'
-import { useSpring, animated, config } from 'react-spring'
+import { useSpring, animated } from 'react-spring'
+import CardFaces from './cardFaces'
 import backImg from '../icons/card-back-v2.jpg'
 
 
-//Hearts
-//Clubs
-//Spades
-//Diamonds
-const bluePositions = {
-    at_hand: { top: `100%`, left: `60%`, "filter": "brightness(100%)" },
-    at_play: { top: `50%`, left: `60%`, "filter": "brightness(100%)" },
-    at_win_stack: { top: `90%`, left: `10%`, "filter": "brightness(50%)" },
-    at_loss_stack: { top: `10%`, left: `90%`, "filter": "brightness(50%)" },
-    at_shuffle: { top: `50%`, left: `10%`, "filter": "brightness(100%)" },
-    at_middle: { top: `50%`, left: `50%`, "filter": "brightness(100%)" }
-}
+// 0-Enemy Deck
+// 1-Enemy Win Stack
+// 2-Enemy Play
+// 3-Player Deck
+// 4-Players Win Stack
+// 5-Player's Play
+// 6-Shuffle
+// 7-War Deck
+const posArr = [
+    { top: `10%`, left: `60%`, "filter": "brightness(100%) " },
+    { top: `10%`, left: `10%`, "filter": "brightness(50%) " },
+    { top: `50%`, left: `40%`, "filter": "brightness(100%) " },
+    { top: `90%`, left: `60%`, "filter": "brightness(100%) " },
+    { top: `90%`, left: `10%`, "filter": "brightness(50%) " },
+    { top: `50%`, left: `60%`, "filter": "brightness(100%) " },
+    { top: `50%`, left: `90%`, "filter": "brightness(100%) " },
+    { top: `50%`, left: `10%`, "filter": "brightness(100%) " },
+]
 
-
-const redPositions = {
-    at_hand: { top: `0%`, left: `40%`, "filter": "brightness(100%)" },
-    at_play: { top: `50%`, left: `40%`, "filter": "brightness(100%)" },
-    at_win_stack: { top: `10%`, left: `90%`, "filter": "brightness(50%)" },
-    at_loss_stack: { top: `90%`, left: `10%`, "filter": "brightness(50%)" },
-    at_shuffle: { top: `50%`, left: `10%`, "filter": "brightness(100%)" },
-    at_middle: { top: `50%`, left: `50%`, "filter": "brightness(100%)" }
-}
-
-export default function Card({ cardPos, isRed, cardFlip, rotation, id, moveId, allMove, url }) {
+export default function Card({ pos, cardId }) {
 
     const props = useSpring({
-        to: (allMove || (moveId === id)) ? {
-            ...getPos(cardPos, isRed),
-            transformOrigin: "center, center",
-            transform: `rotate(${rotation}deg) translate(-50%, -50%)`,
-        } : null,
-        config: config.stiff,
+        to: { ...posArr[pos], transform: `translate(-50%, -50%) rotate(${Math.random() * 40 - 20}deg)` }
     })
 
-    const { transform, opacity } = useSpring({
-        opacity: (moveId === id) ? (cardFlip ? 0 : 1) : null,
-        transform: (moveId === id) ? `perspective(600px) rotateY(${cardFlip ? 0 : 180}deg) scaleX(${cardFlip ? 1 : -1})` : null,
-        config: { mass: 5, tension: 500, friction: 80 },
-    })
+    const flip = pos === 2 || pos === 5
 
     return (
-        <animated.div style={props} className={`game-card absolute rotation-center-card transform-gpu ${id === moveId ? 'z-50' : 'z-10'}`} >
-
-            <animated.img src={url} className="absolute" alt="Back"
-                style={(opacity) ? { opacity: opacity.to(o => 1 - o), transform } : null}
-            />
-            <animated.img src={backImg} className="absolute " alt="Back"
-                style={{
-                    opacity,
-                    transform,
-                    rotateY: '0deg',
-                }}
-            />
-
+        <animated.div className={`game-card absolute ${flip ? 'z-50' : ''}`} style={props}>
+            <animated.img src={CardFaces[cardId]} className="absolute" style={{
+                transform: `perspective(600px) rotateY(${flip ? 180 : 0}deg) scaleX(${flip ? -1 : 1})`,
+                zIndex: 0 + flip,
+                transition: `transform 0.5s`
+            }}></animated.img>
+            <animated.img src={backImg} className="absolute" style={{
+                transform: `perspective(600px) rotateY(${flip ? 0 : 180}deg) scaleX(${flip ? 1 : -1})`,
+                zIndex: 0 + !flip,
+                transition: `transform 0.5s`
+            }}></animated.img>
         </animated.div>
     )
-}
-
-
-function getPos(name, isRed) {
-    let position = null
-    switch (name) {
-        case 'at_hand':
-            position = (isRed) ? redPositions.at_hand : bluePositions.at_hand
-            break;
-        case 'at_play':
-            position = (isRed) ? redPositions.at_play : bluePositions.at_play
-            break;
-        case 'at_win':
-            position = (isRed) ? redPositions.at_win_stack : bluePositions.at_win_stack
-            break;
-        case 'at_loss':
-            position = (isRed) ? redPositions.at_loss_stack : bluePositions.at_loss_stack
-            break;
-        case 'at_shuffle':
-            position = (isRed) ? redPositions.at_shuffle : bluePositions.at_shuffle
-            break;
-        default:
-            position = (isRed) ? redPositions.at_middle : bluePositions.at_middle
-            break;
-    }
 }
