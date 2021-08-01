@@ -30,14 +30,14 @@
 }
 
 .game-card {
-    width: 137px;
-    height: 200px;
+    width: 105px;
+    height: 153px;
 }
 
 @media only screen and (max-width: 640px) {
     .game-card {
-        width: 103px;
-        height: 150px;
+        width: 72px;
+        height: 105px;
     }
 }
 
