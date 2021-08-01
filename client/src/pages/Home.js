@@ -29,7 +29,7 @@ export default function Home() {
                         <FontAwesomeIcon icon={faAngleUp}
                         className="scroll" />
                     </div>
-                    <div class="flex-col text-center w-11/12">
+                    <div className="flex-col text-center w-11/12">
                     <h1 className="text-5xl font-medium text-white pb-10">How To Start</h1>
                     <p className="text-3xl font-medium text-white pb-20">First you have to <a className="underline" href="#">create an account</a>. If 
                     you have an account then <a className="underline" href="/about">log in</a>.</p>
