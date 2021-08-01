@@ -17,12 +17,16 @@ export default function About() {
     const [zIndexArr, setZindex] = useState(imageArr)
     const [drawnRedCardsIndex, setDrawnRedCardsIndex] = useState([])
     const [drawnBlueCardsIndex, setDrawnBlueCardsIndex] = useState([])
+    const [redAtPlay, setRedAtPlay] = useState()
+    const [blueAtPlay, setBlueAtPlay] = useState()
     const [positions, setPositions] = useState([
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
     ])
     const [play, setPlay] = useState(false)
 
+    //Game States
+    const [playWin, setPlayWin] = useState('none')
 
     useEffect(() => {
         if (play) {
@@ -30,7 +34,19 @@ export default function About() {
             blueDraw()
             setPlay(false)
         }
-    }, [play, redDraw, blueDraw])
+        // eslint-disable-next-line
+    }, [play])
+
+    useEffect(() => {
+        if (playWin === 'none') return
+        if (playWin === 'red-won-play') {
+            redWon()
+            setPlayWin('none')
+        } else if (playWin === 'blue-won-play') {
+            blueWon()
+            setPlayWin('none')
+        }
+    }, [playWin, redAtPlay, blueAtPlay])
 
     const redDraw = () => {
         drawACard(true, 0, 25, 2)
@@ -40,36 +56,39 @@ export default function About() {
         drawACard(false, 26, 51, 5)
     }
 
-    const blueDrawWar = () => {
-
+    const redWon = () => {
+        console.log("red won", redAtPlay);
+        changeArrayPos(redAtPlay, 1)
+        changeArrayPos(blueAtPlay, 1)
     }
 
-    const redDrawWar = () => {
-
+    const blueWon = () => {
+        changeArrayPos(redAtPlay, 4)
+        changeArrayPos(blueAtPlay, 4)
     }
-
 
 
     const drawACard = (isRed, startIndex, endIndex, pos) => {
+        let randomBlueCard = undefined;
+        let randomRedCard = undefined
         if (isRed) {
             if (drawnRedCardsIndex.length > 25) return
-            let randomCard = getRandomIntInclusive(startIndex, endIndex)
-            console.log(drawnRedCardsIndex.length);
-            //If random card was already drawn, then try again until
-            while (drawnRedCardsIndex.includes(randomCard)) {
-                randomCard = getRandomIntInclusive(startIndex, endIndex)
+            randomRedCard = getRandomIntInclusive(startIndex, endIndex)
+            setRedAtPlay(randomRedCard)
+            while (drawnRedCardsIndex.includes(randomRedCard)) {
+                randomRedCard = getRandomIntInclusive(startIndex, endIndex)
             }
-            setDrawnRedCardsIndex(prevArr => [...prevArr, randomCard])
-            changeArrayPos(randomCard, pos)
+            setDrawnRedCardsIndex(prevArr => [...prevArr, randomRedCard])
+            changeArrayPos(randomRedCard, pos)
         } else {
             if (drawnBlueCardsIndex.length > 25) return
-            let randomCard = getRandomIntInclusive(startIndex, endIndex)
-            //If random card was already drawn, then try again until
-            while (drawnBlueCardsIndex.includes(randomCard)) {
-                randomCard = getRandomIntInclusive(startIndex, endIndex)
+            randomBlueCard = getRandomIntInclusive(startIndex, endIndex)
+            while (drawnBlueCardsIndex.includes(randomBlueCard)) {
+                randomBlueCard = getRandomIntInclusive(startIndex, endIndex)
             }
-            setDrawnBlueCardsIndex(prevArr => [...prevArr, randomCard])
-            changeArrayPos(randomCard, pos)
+            setBlueAtPlay(randomBlueCard)
+            setDrawnBlueCardsIndex(prevArr => [...prevArr, randomBlueCard])
+            changeArrayPos(randomBlueCard, pos)
         }
     }
 
@@ -87,11 +106,9 @@ export default function About() {
                 ))}
             </div>
             <div className="h-1/6 bg-red-50">
-                <button onClick={() => blueDraw()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Blue Play</button>
-                <button onClick={() => redDraw()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Red Play</button>
-                <button onClick={() => blueDrawWar()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Blue War Stack</button>
-                <button onClick={() => redDrawWar()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Red War Stack</button>
-                <button onClick={() => setPlay(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >FLIP</button>
+                <button onClick={() => setPlayWin('red-won-play')} className="bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" >RED WON</button>
+                <button onClick={() => setPlay(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Draw A Card</button>
+                <button onClick={() => setPlayWin('blue-won-play')} className="bg-green-300 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" >PLAYER WON</button>
             </div>
         </div>
     )
@@ -113,6 +130,3 @@ function getRandomIntInclusive(min, max) {
 
 // 6 Shuffle
 // 7 War Deck
-
-
-/* Game States */
