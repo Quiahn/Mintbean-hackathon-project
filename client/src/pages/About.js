@@ -1,176 +1,118 @@
 import React, { useState, useEffect } from 'react'
-import Card from '../misc/Card';
+import Card from '../misc/Card'
 
-
-const bluePositions = {
-    at_hand: { top: `100%`, left: `60%` },
-    at_play: { top: `50%`, left: `60%` },
-    at_win_stack: { top: `100%`, left: `15%` },
-    at_loss_stack: { top: `0%`, left: `70%` },
-    at_shuffle: { top: `50%`, left: `10%` },
-    at_middle: { top: `50%`, left: `50%` }
+function genRandom() {
+    return Array(52).fill(null).map(() => Math.floor(Math.random() * 3))
 }
 
-
-
-const redPositions = {
-    at_hand: { top: `0%`, left: `40%` },
-    at_play: { top: `50%`, left: `40%` },
-    at_win_stack: { top: `0%`, left: `70%` },
-    at_loss_stack: { top: `100%`, left: `15%` },
-    at_shuffle: { top: `50%`, left: `10%` },
-    at_middle: { top: `50%`, left: `50%` }
+function genRandomArr1() {
+    return Array(26).fill(null).map(() => Math.floor(Math.random() * 26))
 }
-
-const redDeck = (redP, moveId, allMove, flipCard) => {
-    let key = 0;
-    return Array.apply(null, { length: 26 }).map((e, i) => (
-        <Card key={key++} id={key} cardPos={redP} isRed={false} moveId={moveId} allMove={allMove} cardFlip={flipCard} rotation={getRandomInt(-20, 20)}></Card>
-    ));
+function genRandomArr2() {
+    return Array(26).fill(null).map(() => Math.floor(Math.random() * 26) + 26)
 }
-
-const blueDeck = (blueP, moveId, allMove, flipCard) => {
-    let key = 0;
-    return Array.apply(null, { length: 26 }).map((e, i) => (
-        <Card key={key++} id={key} cardPos={blueP} isRed={true} moveId={moveId} allMove={allMove} cardFlip={flipCard} rotation={getRandomInt(-20, 20)}></Card>
-    ));
-}
-
+const imageArr = genRandomArr1().concat(genRandomArr2())
 
 export default function About() {
-    const [redP, setRedP] = useState(redPositions.at_middle)
-    const [blueP, setBlueP] = useState(bluePositions.at_middle)
-    const [flip, setFlip] = useState(false)
-    const [moveId, setMoveId] = useState(0)
-    const [allMove, setAllMove] = useState(true)
-    const [playPool, setPlayPool] = useState([])
-    const [atWar, setAtWar] = useState('')
-    const [test, setTest] = useState('')
-    const [idBeforeWar, setIdBeforeWar] = useState(null)
+    const [zIndexArr, setZindex] = useState(imageArr)
+    const [drawnRedCardsIndex, setDrawnRedCardsIndex] = useState([])
+    const [drawnBlueCardsIndex, setDrawnBlueCardsIndex] = useState([])
+    const [positions, setPositions] = useState([
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+    ])
+    const [play, setPlay] = useState(false)
 
 
     useEffect(() => {
-        if (atWar === 'war-over') {
-            if (playPool.length === 0) return
-            setIdBeforeWar(prevValue => prevValue + 1)
-            console.log(idBeforeWar);
-            let e = playPool
-            setMoveId(e.pop())
-            setRedP(redPositions.at_win_stack);
-            setBlueP(bluePositions.at_loss_stack);
-            setPlayPool(e)
-            setTest(prevTest => !prevTest)
+        if (play) {
+            redDraw()
+            blueDraw()
+            setPlay(false)
         }
+    }, [play, redDraw, blueDraw])
 
-        // eslint-disable-next-line
-    }, [atWar, playPool, moveId, test])
+    const redDraw = () => {
+        drawACard(true, 0, 25, 2)
+    }
 
-    useEffect(() => {
-        if (moveId > 26) {
-            setAllMove(true)
-            setMoveId(0)
-            setRedP(redPositions.at_middle)
-            setBlueP(bluePositions.at_middle)
+    const blueDraw = () => {
+        drawACard(false, 26, 51, 5)
+    }
+
+    const blueDrawWar = () => {
+
+    }
+
+    const redDrawWar = () => {
+
+    }
+
+
+
+    const drawACard = (isRed, startIndex, endIndex, pos) => {
+        if (isRed) {
+            if (drawnRedCardsIndex.length > 25) return
+            let randomCard = getRandomIntInclusive(startIndex, endIndex)
+            console.log(drawnRedCardsIndex.length);
+            //If random card was already drawn, then try again until
+            while (drawnRedCardsIndex.includes(randomCard)) {
+                randomCard = getRandomIntInclusive(startIndex, endIndex)
+            }
+            setDrawnRedCardsIndex(prevArr => [...prevArr, randomCard])
+            changeArrayPos(randomCard, pos)
+        } else {
+            if (drawnBlueCardsIndex.length > 25) return
+            let randomCard = getRandomIntInclusive(startIndex, endIndex)
+            //If random card was already drawn, then try again until
+            while (drawnBlueCardsIndex.includes(randomCard)) {
+                randomCard = getRandomIntInclusive(startIndex, endIndex)
+            }
+            setDrawnBlueCardsIndex(prevArr => [...prevArr, randomCard])
+            changeArrayPos(randomCard, pos)
         }
-        setAllMove(false)
-    }, [moveId])
-
-
-    useEffect(() => {
-        if (atWar === 'war-started' && !playPool.includes(moveId)) {
-            setPlayPool([...playPool, moveId])
-        }
-
-    }, [atWar, moveId, playPool])
-
-    function atHand() {
-
-        setMoveId(0);
-        setAllMove(true);
-        setRedP(redPositions.at_hand);
-        setBlueP(bluePositions.at_hand)
     }
 
-    function atShuffle() {
-        setMoveId(0);
-        setAllMove(true);
-        setRedP(redPositions.at_shuffle);
-        setBlueP(bluePositions.at_shuffle)
+    const changeArrayPos = (index, pos) => {
+        let newArr = positions
+        newArr[index] = pos
+        setPositions([...newArr])
     }
-
-    function atMiddle() {
-        setMoveId(0);
-        setAllMove(true);
-        setRedP(redPositions.at_middle);
-        setBlueP(bluePositions.at_middle);
-    }
-
-    function atPlay() {
-        if (atWar === 'war-over') {
-            setMoveId(idBeforeWar)
-            setAtWar('')
-        }
-
-
-        setFlip(true)
-        setAllMove(false);
-        setRedP(redPositions.at_play);
-        setBlueP(bluePositions.at_play)
-        setMoveId((prevMov) => prevMov + 1);
-    }
-    function atBlueWin() {
-        setFlip(false)
-        setAllMove(false);
-        setBlueP(bluePositions.at_win_stack);
-        setRedP(redPositions.at_loss_stack);
-    }
-    function atRedWin() {
-        setFlip(false)
-        setAllMove(false);
-        setRedP(redPositions.at_win_stack);
-        setBlueP(bluePositions.at_loss_stack);
-    }
-
-    function atWarPlay() {
-        setFlip(false)
-        setAllMove(false);
-        setRedP(redPositions.at_play);
-        setBlueP(bluePositions.at_play)
-        //setAtWar('war-started')
-        setMoveId((prevMov) => prevMov + 1);
-    }
-
-
-
-    async function atRedWinWar() {
-
-    }
-
-
-
-
 
     return (
-        <div className={"h-full flex flex-col overflow-hidden "}>
+        <div className="h-full flex flex-col overflow-hidden">
             <div className="h-5/6 w-full bg-indigo-50  overflow-hidden relative transform-gpu">
-                {redDeck(redP, moveId, allMove, flip)}
-                {blueDeck(blueP, moveId, allMove, flip)}
+                {positions.map((pos, i) => (
+                    <Card pos={pos} key={i} cardId={zIndexArr[i]}></Card>
+                ))}
             </div>
-            <button onClick={() => atHand()}>atHand</button>
-            <button onClick={() => atShuffle()}>atShuffle</button>
-            <button onClick={() => atMiddle()}>atMiddle</button>
-            <button onClick={() => atPlay()}>atPlay</button>
-            <button onClick={() => atBlueWin()}>atBlueWin</button>
-            <button onClick={() => atRedWin()}>atRedWin</button>
-            <button onClick={() => { setAtWar('war-started'); setIdBeforeWar(moveId) }}>War Started</button>
-            <button onClick={() => atWarPlay()}>At War Play</button>
-            <button onClick={() => atRedWinWar()}>At Red Win</button>
-            <button onClick={() => { setAtWar('war-over') }}>War Finished</button>
+            <div className="h-1/6 bg-red-50">
+                <button onClick={() => blueDraw()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Blue Play</button>
+                <button onClick={() => redDraw()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Red Play</button>
+                <button onClick={() => blueDrawWar()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Blue War Stack</button>
+                <button onClick={() => redDrawWar()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Red War Stack</button>
+                <button onClick={() => setPlay(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >FLIP</button>
+            </div>
         </div>
     )
+}
+
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// 0 Enemy Deck
+// 1 Enemy Win Stack
+// 2 Enemy Play
+
+// 3 Player Deck
+// 4 Players Win Stack
+// 5 Player's Play
+
+// 6 Shuffle
+// 7 War Deck
 
 
-}
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
-}
+/* Game States */

@@ -25,20 +25,13 @@
     background: #92400e;
   }
 
-.rotation-center-card {
+  .rotation-center-card {
     transform-origin: center;
 }
 
 .game-card {
     width: 105px;
     height: 153px;
-}
-
-@media only screen and (max-width: 640px) {
-    .game-card {
-        width: 72px;
-        height: 105px;
-    }
 }
 
 .scroll {   
@@ -71,6 +64,13 @@
         width: 0px;
         background-color: #F5F5F5;
       }
+}
+
+@media only screen and (max-width: 640px) {
+    .game-card {
+        width: 72px;
+        height: 105px;
+    }
 }
 
 @media only screen and (min-width: 1300px) {
