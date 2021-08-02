@@ -3,13 +3,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.rotation-center-card {
+
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+	background-color: #F5F5F5;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background-color: #78350f;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #92400e;
+  }
+
+  .rotation-center-card {
     transform-origin: center;
 }
 
 .game-card {
     width: 105px;
     height: 153px;
+}
+
+.scroll {   
+    font-size: 50px;
+    color: rgba(0,0,0,0.2);
+    
+    
+   -webkit-animation: scrolling 2s ease infinite;
+   -moz-animation: scrolling 2s ease infinite;
+   -o-animation: scrolling 2s  ease infinite;
+   animation: scrolling 2s ease infinite;
+}
+
+@keyframes scrolling {
+  0% {
+    transform: translate(0);
+  }
+ 
+  50% {
+    transform: translate(0,40px);}
+
+ 
+  100% {
+     transform: translate(0);
+  }
+}
+
+@media only screen and (max-width: 1024px){
+    ::-webkit-scrollbar {
+        width: 0px;
+        background-color: #F5F5F5;
+      }
 }
 
 @media only screen and (max-width: 640px) {
