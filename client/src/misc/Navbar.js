@@ -1,21 +1,69 @@
 import React from 'react'
 import { NavLink } from "react-router-dom";
-import { useState } from 'react';
-import Cookies from 'universal-cookie';
+import { useState, useContext, useEffect } from 'react';
 import logo from './../img/card-wars-logo-sm.png'
+import { UserContext } from "./UserContext";
+import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
+
 export default function Navbar() {
     const [active, setActive] = useState(false);
+    const { userDataGlobal, setUserDataGlobal } = useContext(UserContext)
 
-
+    console.log(userDataGlobal);
     const logOut = () => {
         cookies.remove("token")
+        setUserDataGlobal({ loggedIn: false, data: null })
     }
     const handleClick = () => {
         setActive(!active);
     };
+
+    useEffect(() => {
+        if (cookies.get("token") !== null && cookies.get("token") !== undefined) {
+            console.log("GOOODD")
+            setUserDataGlobal({ loggedIn: true, data: null })
+        }
+        // eslint-disable-next-line
+    }, [])
+
+    const notLoggedIn = () => {
+        return (
+            <>
+                <NavLink to={`/signin`} activeClassName="bg-indigo-900" onClick={handleClick}>
+                    <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-900 hover:text-white'>
+                        <p>Sign In</p>
+                    </div>
+                </NavLink>
+
+                <NavLink to={`/signup`} activeClassName="bg-indigo-900" onClick={handleClick}>
+                    <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-900 hover:text-white'>
+                        <p>Create Account</p>
+                    </div>
+                </NavLink>
+            </>
+        )
+    }
+
+    const loggedIn = () => {
+        return (
+            <>
+                <NavLink to={`/game`} className="" replace onClick={() => { handleClick(); }}>
+                    <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-900 hover:text-white'>
+                        <p>Dashboard</p>
+                    </div>
+                </NavLink>
+                <NavLink to={`/`} className="" replace onClick={() => { handleClick(); logOut() }}>
+                    <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-900 hover:text-white'>
+                        <p>Log Out</p>
+                    </div>
+                </NavLink>
+            </>
+        )
+    }
+
     return (
         <nav className='sticky z-50 top-0 flex items-center flex-wrap bg-yellow-700 p-3'>
 
@@ -53,24 +101,7 @@ export default function Navbar() {
                             <p>About us</p>
                         </div>
                     </NavLink>
-
-                    <NavLink to={`/signin`} activeClassName="bg-indigo-900" onClick={handleClick}>
-                        <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-900 hover:text-white'>
-                            <p>Sign In</p>
-                        </div>
-                    </NavLink>
-
-                    <NavLink to={`/signup`} activeClassName="bg-indigo-900" onClick={handleClick}>
-                        <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-900 hover:text-white'>
-                            <p>Create Account</p>
-                        </div>
-                    </NavLink>
-
-                    <NavLink to={`/`} className="" replace onClick={() => { handleClick(); logOut() }}>
-                        <div className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-indigo-900 hover:text-white'>
-                            <p>Log Out</p>
-                        </div>
-                    </NavLink>
+                    {userDataGlobal.loggedIn ? loggedIn() : notLoggedIn()}
 
                 </div>
             </div>

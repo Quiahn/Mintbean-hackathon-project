@@ -46,16 +46,13 @@ io.on("connection", (socket) => {
 	})
 
 	socket.on("someoneConnected", (data) => {
-		console.log(data);
 		socket.broadcast.emit("message", { message: `${data} Connected! Say Hi`, from: "AI" })
 	})
-	socket.on("disconnect", () => {
-		console.log("User disconnected")
+
+	socket.on("disconnected", (data) => {
+		socket.broadcast.emit("message", { message: `${data} Left the chat! `, from: "AI" })
 	})
 
-	socket.on("disconnected", (socketss) => {
-		console.log("User disconnected: ", socketss)
-	})
 });
 
 

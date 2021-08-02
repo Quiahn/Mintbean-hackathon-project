@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import io from 'socket.io-client'
 import Chat from '../misc/Chat';
 import StatCards from '../misc/StatCards';
-
+import { UserContext } from '../misc/UserContext'
 
 
 const cookies = new Cookies();
@@ -18,6 +18,8 @@ export default function Game() {
     const [message, setMessage] = useState(null)
     const [messages, setMessages] = useState([{ "message": "Welcome to Card Wars! Chat with others in the lobby here!", "from": "AI" }])
     const [userData, setUserData] = useState({})
+    const { setUserDataGlobal } = useContext(UserContext)
+
     useEffect(() => {
         let cookieToken = cookies.get("token");
         if (!cookieToken) return
@@ -32,6 +34,7 @@ export default function Game() {
                 setUsername(res.data.username)
                 setId(res.data.id)
                 setAuthorized(true)
+                setUserDataGlobal({ loggedIn: true, data: res.data })
             })
             .catch(error => {
                 console.log(error);

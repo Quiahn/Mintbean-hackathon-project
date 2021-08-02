@@ -5,13 +5,17 @@ import Error from "./pages/Error";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Navbar from "./misc/Navbar";
+import { useState, useMemo } from "react";
 import { Switch, Route } from "react-router-dom";
+import { UserContext } from "./misc/UserContext";
+
 
 function App() {
+    const [userDataGlobal, setUserDataGlobal] = useState({ loggedIn: false, data: null })
+    const providerValue = useMemo(() => ({ userDataGlobal, setUserDataGlobal }), [userDataGlobal, setUserDataGlobal])
 
     return (
-        <>
-
+        <UserContext.Provider value={providerValue}>
             <div className="flex flex-col h-screen">
                 <Navbar />
                 <Switch>
@@ -20,7 +24,6 @@ function App() {
                         <div className="">
                             <Home />
                         </div>
-
                     </Route>
 
                     <Route path="/signup">
@@ -46,7 +49,7 @@ function App() {
                 </Switch>
 
             </div>
-        </>
+        </UserContext.Provider>
     );
 }
 //<Navbar />

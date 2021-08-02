@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import lgLogo from './../img/card-wars-logo-lg.png'
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import { faAngleDown, faAngleUp } from '@fortawesome/fontawesome-free-solid'
 
 export default function Home() {
-    const [signedin, setSignedIn] = useState(false)
 
     return (
         <Parallax pages={2} style={{ top: '0', left: '0' }}>
@@ -27,7 +26,7 @@ export default function Home() {
                 <div className="absolute flex top-20 left-50">
                     SCROLL
                 </div>
-                <div class="flex-col text-center w-11/12">
+                <div className="flex-col text-center w-11/12">
                     <h1 className="text-5xl font-medium text-white pb-10">How To Start</h1>
                     <p className="text-3xl font-medium text-white pb-20">First you have to <span className="underline" >create an account</span>. If
                         you have an account then <a className="underline" href="/about">log in</a>.</p>
