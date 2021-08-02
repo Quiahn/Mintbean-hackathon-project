@@ -27,6 +27,7 @@ export default function Home() {
                     SCROLL
                 </div>
                 <div className="flex-col text-center w-11/12">
+
                     <h1 className="text-5xl font-medium text-white pb-10">How To Start</h1>
                     <p className="text-3xl font-medium text-white pb-20">First you have to <span className="underline" >create an account</span>. If
                         you have an account then <a className="underline" href="/about">log in</a>.</p>
