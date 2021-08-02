@@ -19,7 +19,7 @@ export default function Chat({ setMsg, obj, sendMsg, user }) {
     }
     const allMessages = obj.map((da, i) => {
         return (<div key={i} className="flex flex-col items-start my-4 px-1">
-            <div className={`h-5/6 bg-white ${user === da.from ? 'bg-blue-300' : 'bg-yellow-300'} p-1 mt-2 rounded-tl-lg  rounded-tr-lg  rounded-br-lg break-words `}>
+            <div className={`h-5/6 bg-white ${user === da.from ? 'bg-blue-300' : 'bg-yellow-300'} ml-2 p-1 mt-2 rounded-tl-lg  rounded-tr-lg  rounded-br-lg break-words `}>
                 <p>{da.message}</p>
             </div>
 
@@ -29,7 +29,7 @@ export default function Chat({ setMsg, obj, sendMsg, user }) {
         </div>)
     })
     return (
-        <div className="p-2 mb-10  mx-auto h-96">
+        <div className="p-2 mb-10  mx-auto h-full max-h-96">
             <div id="scroll-chat-div" className="h-full bg-gray-100 overflow-y-scroll overflow-x-hidden">
                 {allMessages}
             </div>

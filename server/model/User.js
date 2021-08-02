@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    cardDrawns: {
+    cardsDrawn: {
         type: Number,
         default: 0
     },

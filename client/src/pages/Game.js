@@ -89,13 +89,23 @@ export default function Game() {
     }
 
 
+    const onGameStart = () => {
+        if (!socket) return
+        socket.emit("game-started", { id: id, gamesPlayed: userData.gamesPlayed })
+    }
+
 
     const authorizedComponent = () => {
         return (
-            <div className="container mx-auto">
-                <p className="text-5xl text-center m-10 break-all">Hello {username}</p>
-                <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3'>
-                    <Chat setMsg={setMessage} obj={messages} user={username} sendMsg={onSendMessage}></Chat>
+            <div className="container mx-auto h-full">
+                <p className="text-5xl text-center m-10 break-normal">Hello {username}</p>
+                <div className=" max-w-3xl m-auto px-20 my-20">
+                    <Link to={`${url}/play`} onClick={() => onGameStart()}>
+                        <button className="bg-red-500 w-full h-full hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">PLAY</button>
+                    </Link>
+                </div>
+                <div className='w-full grid grid-cols-1 md:grid-cols-3 place-content-center'>
+                    <div className="w-full"> <Chat setMsg={setMessage} obj={messages} user={username} sendMsg={onSendMessage} /> </div>
                     <div className="m-1">
                         <StatCards title={"Username"} stat={userData.username} />
                         <StatCards title={"Account Age (in Minutes)"} stat={new Date(new Date().getTime() - new Date(userData.date).getTime()).getMinutes()} />
@@ -103,6 +113,7 @@ export default function Game() {
                         <StatCards title={"Games Played"} stat={userData.gamesPlayed} />
                         <StatCards title={"Games Lost"} stat={userData.gamesLost} />
                         <StatCards title={"Games Won"} stat={userData.gamesWon} />
+                        <StatCards title={"CardsDrawn"} stat={userData.cardsDrawn} />
                     </div>
                     <div className="h-4/6 overflow-x-hidden overflow-y-scroll bg-gray-100 p-2 m-1">
                         <p className="text-xl break-all p-1">The goal is to be the first player to win all 52 cards</p>
@@ -118,15 +129,8 @@ export default function Game() {
                         <p className="text-2xl  break-all p-1">HOW TO KEEP SCORE</p>
                         <p className="text-base break-all p-1">The game ends when one player has won all the cards.</p>
                     </div>
-                    <div>
-                        <Link to={`${url}/single`}>
-                            <button>Single Player</button>
-                        </Link>
-                        <Link to={`${url}/multi`}>
-                            <button>Multi Player</button>
-                        </Link>
-                    </div>
                 </div>
+
             </div>
 
         )

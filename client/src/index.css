@@ -73,13 +73,6 @@
   }
 }
 
-@media only screen and (min-width: 1300px) {
-  .game-card {
-    width: 208px;
-    height: 303px;
-  }
-}
-
 /*GAME ANIMATIONS!*/
 
 .scale-in-center {

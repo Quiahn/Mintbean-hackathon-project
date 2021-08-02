@@ -3,10 +3,10 @@ import { useSpring, animated } from 'react-spring'
 import CardFaces from './cardFaces'
 import backImg from '../icons/card-back-v2.jpg'
 
-export default function TestCard({ flip, cardId, pos }) {
+export default function TestCard({ flip, cardId, pos, isPlaying }) {
 
     const porps = useSpring({
-        to: { ...pos, transform: `translate(-50%, -50%) rotateZ(-10deg)` }
+        to: { ...pos, transform: `translate(-50%, -50%) rotateZ(-10deg)  rotate(${isPlaying ? (Math.random() * 60 - 30) : -8}deg)` }
     })
 
     const { transform, opacity } = useSpring({
