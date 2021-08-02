@@ -39,19 +39,20 @@ app.use('/api/game', gameRouter)
 
 //Socket
 io.on("connection", (socket) => {
-	console.log("User connected: ", socket.id)
+
+
 	socket.on("message", (data) => {
-		console.log(data)
 		socket.broadcast.emit("message", data)
 	})
 
-	socket.on("disconnect", () => {
-		console.log("User disconnected")
+	socket.on("someoneConnected", (data) => {
+		socket.broadcast.emit("message", { message: `${data} Connected! Say Hi`, from: "AI" })
 	})
 
-	socket.on("disconnected", (socketss) => {
-		console.log("User disconnected: ", socketss)
+	socket.on("disconnected", (data) => {
+		socket.broadcast.emit("message", { message: `${data} Left the chat! `, from: "AI" })
 	})
+
 });
 
 

@@ -9,7 +9,6 @@ export default function SignIn() {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [status, setStatus] = useState("")
-
     let history = useHistory();
 
     const onButtonClick = (event) => {

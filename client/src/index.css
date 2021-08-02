@@ -3,79 +3,164 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* width */
-::-webkit-scrollbar {
-    width: 6px;
-	background-color: #F5F5F5;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
-  }
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background-color: #78350f;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #92400e;
-  }
 
-  .rotation-center-card {
-    transform-origin: center;
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #F5F5F5;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+  background-color: #78350f;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+  background: #92400e;
+}
+
+.rotation-center-card {
+  transform-origin: center;
 }
 
 .game-card {
-    width: 105px;
-    height: 153px;
+  width: 105px;
+  height: 153px;
 }
 
-.scroll {   
-    font-size: 50px;
-    color: rgba(0,0,0,0.2);
-    
-    
-   -webkit-animation: scrolling 2s ease infinite;
-   -moz-animation: scrolling 2s ease infinite;
-   -o-animation: scrolling 2s  ease infinite;
-   animation: scrolling 2s ease infinite;
+.scroll {
+  font-size: 50px;
+  color: rgba(0, 0, 0, 0.2);
+  -webkit-animation: scrolling 2s ease infinite;
+  -moz-animation: scrolling 2s ease infinite;
+  -o-animation: scrolling 2s ease infinite;
+  animation: scrolling 2s ease infinite;
 }
 
 @keyframes scrolling {
   0% {
     transform: translate(0);
   }
- 
   50% {
-    transform: translate(0,40px);}
-
- 
+    transform: translate(0, 40px);
+  }
   100% {
-     transform: translate(0);
+    transform: translate(0);
   }
 }
 
-@media only screen and (max-width: 1024px){
-    ::-webkit-scrollbar {
-        width: 0px;
-        background-color: #F5F5F5;
-      }
+@media only screen and (max-width: 1024px) {
+  ::-webkit-scrollbar {
+    width: 0px;
+    background-color: #F5F5F5;
+  }
 }
 
 @media only screen and (max-width: 640px) {
-    .game-card {
-        width: 72px;
-        height: 105px;
-    }
+  .game-card {
+    width: 72px;
+    height: 105px;
+  }
 }
 
 @media only screen and (min-width: 1300px) {
-    .game-card {
-        width: 208px;
-        height: 303px;
-    }
+  .game-card {
+    width: 208px;
+    height: 303px;
+  }
+}
+
+/*GAME ANIMATIONS!*/
+
+.scale-in-center {
+  -webkit-animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  transform: translate(-50%, -50%);
+}
+
+/**
+ * ----------------------------------------
+ * animation scale-in-center
+ * ----------------------------------------
+ */
+
+@-webkit-keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0) translate(-50%, -50%);
+    transform: scale(0) translate(-50%, -50%);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0) translate(-50%, -50%);
+    transform: scale(0) translate(-50%, -50%);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1) translate(-50%, -50%);
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+.slide-in-elliptic-top-fwd {
+  -webkit-animation: slide-in-elliptic-top-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: slide-in-elliptic-top-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+/**
+ * ----------------------------------------
+ * animation slide-in-elliptic-top-fwd
+ * ----------------------------------------
+ */
+
+@-webkit-keyframes slide-in-elliptic-top-fwd {
+  0% {
+    -webkit-transform: translateY(-600px) rotateX(-30deg) scale(0);
+    transform: translateY(-600px) rotateX(-30deg) scale(0);
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) rotateX(0) scale(1);
+    transform: translateY(0) rotateX(0) scale(1);
+    -webkit-transform-origin: 50% 1400px;
+    transform-origin: 50% 1400px;
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-elliptic-top-fwd {
+  0% {
+    -webkit-transform: translateY(-600px) rotateX(-30deg) scale(0);
+    transform: translateY(-600px) rotateX(-30deg) scale(0);
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) rotateX(0) scale(1);
+    transform: translateY(0) rotateX(0) scale(1);
+    -webkit-transform-origin: 50% 1400px;
+    transform-origin: 50% 1400px;
+    opacity: 1;
+  }
 }

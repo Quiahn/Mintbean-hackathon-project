@@ -16,6 +16,22 @@ const userSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    cardDrawns: {
+        type: Number,
+        default: 0
+    },
+    gamesPlayed: {
+        type: Number,
+        default: 0
+    },
+    gamesWon: {
+        type: Number,
+        default: 0
+    },
+    gamesLost: {
+        type: Number,
+        default: 0
     }
 })
 

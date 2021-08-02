@@ -3,46 +3,24 @@ import { useSpring, animated } from 'react-spring'
 import CardFaces from './cardFaces'
 import backImg from '../icons/card-back-v2.jpg'
 
+export default function TestCard({ flip, cardId, pos }) {
 
-// 0-Enemy Deck
-// 1-Enemy Win Stack
-// 2-Enemy Play
-// 3-Player Deck
-// 4-Players Win Stack
-// 5-Player's Play
-// 6-Shuffle
-// 7-War Deck
-const posArr = [
-    { top: `10%`, left: `60%`, "filter": "brightness(100%) " },
-    { top: `10%`, left: `10%`, "filter": "brightness(50%) " },
-    { top: `50%`, left: `40%`, "filter": "brightness(100%) " },
-    { top: `90%`, left: `60%`, "filter": "brightness(100%) " },
-    { top: `90%`, left: `10%`, "filter": "brightness(50%) " },
-    { top: `50%`, left: `60%`, "filter": "brightness(100%) " },
-    { top: `50%`, left: `90%`, "filter": "brightness(100%) " },
-    { top: `50%`, left: `10%`, "filter": "brightness(100%) " },
-]
-
-export default function Card({ pos, cardId }) {
-
-    const props = useSpring({
-        to: { ...posArr[pos], transform: `translate(-50%, -50%) rotate(${Math.random() * 40 - 20}deg)` }
+    const porps = useSpring({
+        to: { ...pos, transform: `translate(-50%, -50%) rotateZ(-10deg)` }
     })
 
-    const flip = pos === 2 || pos === 5
+    const { transform, opacity } = useSpring({
+        opacity: !flip ? 1 : 0,
+        transform: `perspective(600px) rotateY(${!flip ? 180 : 0}deg)`,
+        config: { mass: 5, tension: 500, friction: 80 }
+    })
 
     return (
-        <animated.div className={`game-card absolute ${flip ? 'z-50' : ''}`} style={props}>
-            <animated.img src={CardFaces[cardId]} className="absolute" style={{
-                transform: `perspective(600px) rotateY(${flip ? 180 : 0}deg) scaleX(${flip ? -1 : 1})`,
-                zIndex: 0 + flip,
-                transition: `transform 0.5s`
-            }}></animated.img>
-            <animated.img src={backImg} className="absolute" style={{
-                transform: `perspective(600px) rotateY(${flip ? 0 : 180}deg) scaleX(${flip ? 1 : -1})`,
-                zIndex: 0 + !flip,
-                transition: `transform 0.5s`
-            }}></animated.img>
+        <animated.div className={`game-card absolute z-10`} style={porps}>
+            <animated.img src={CardFaces[cardId]} className="absolute" style={{ opacity: opacity.to(o => 1 - o), transform }} />
+            <animated.img src={backImg} className="absolute" style={{ opacity, transform: transform.to(t => `${t} rotateY(180deg)`) }}></animated.img>
         </animated.div>
     )
 }
+
+
