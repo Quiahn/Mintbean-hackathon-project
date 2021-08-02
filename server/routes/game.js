@@ -8,7 +8,7 @@ router.get('/start', verify, async (req, res) => {
     const user = await User.findOne({ _id: userId })
     const username = user.username
 
-    res.send({ username: username, id: userId })
+    res.send({ username: username, id: userId, noCardsDrawn: user.cardDrawns, gamesPlayed: user.gamesPlayed, gamesWon: user.gamesWon, gamesLost: user.gamesLost, date: user.date })
 })
 
 
