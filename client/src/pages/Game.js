@@ -5,11 +5,12 @@ import io from 'socket.io-client'
 import Chat from '../misc/Chat';
 import StatCards from '../misc/StatCards';
 import { UserContext } from '../misc/UserContext'
-
+import { Link, useRouteMatch } from 'react-router-dom';
 
 const cookies = new Cookies();
 
 export default function Game() {
+    let { url } = useRouteMatch();
     const [authorized, setAuthorized] = useState(false)
     const [token, setToken] = useState(null)
     const [username, setUsername] = useState()
@@ -40,6 +41,7 @@ export default function Game() {
                 console.log(error);
                 setAuthorized(false)
             })
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -115,6 +117,14 @@ export default function Game() {
 
                         <p className="text-2xl  break-all p-1">HOW TO KEEP SCORE</p>
                         <p className="text-base break-all p-1">The game ends when one player has won all the cards.</p>
+                    </div>
+                    <div>
+                        <Link to={`${url}/single`}>
+                            <button>Single Player</button>
+                        </Link>
+                        <Link to={`${url}/multi`}>
+                            <button>Multi Player</button>
+                        </Link>
                     </div>
                 </div>
             </div>

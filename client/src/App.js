@@ -8,7 +8,8 @@ import Navbar from "./misc/Navbar";
 import { useState, useMemo } from "react";
 import { Switch, Route } from "react-router-dom";
 import { UserContext } from "./misc/UserContext";
-
+import GamePlaySP from "./pages/GamePlaySP";
+import GamePlayMP from "./pages/GamePlayMP";
 
 function App() {
     const [userDataGlobal, setUserDataGlobal] = useState({ loggedIn: false, data: null })
@@ -34,12 +35,18 @@ function App() {
                         <SignIn />
                     </Route>
 
-                    <Route path="/game">
+                    <Route path="/game" exact>
                         <Game />
                     </Route>
 
                     <Route path="/about">
                         <About />
+                    </Route>
+                    <Route path="/game/single" exact>
+                        <GamePlaySP />
+                    </Route>
+                    <Route path="/game/multi" exact>
+                        <GamePlayMP />
                     </Route>
 
                     <Route>
