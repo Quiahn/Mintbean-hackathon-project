@@ -1,11 +1,17 @@
 # GAME: Card Wars
-##Freatures
+
+## Freatures
+
 ### Accounts
 ![image of creating an account](https://user-images.githubusercontent.com/73269468/128045962-14799bf1-e2d6-4553-b0dc-1c260c1ee3cd.png)
+
 ### Live chat in dashboard
 ![image of chat](https://www.cardwars.org/static/media/login.a6edd90b.png)
+
 ### Leaderboard based on win/lose ration
+![image of leaderboard](https://imgur.com/hZbfynz)
 ### Ai to play against
+![](https://imgur.com/JWDNZcG)
 ### Account Stats
 ![image of account stats](https://www.cardwars.org/static/media/stats.c376fc98.png)
 
@@ -138,3 +144,11 @@ Sorted by amount of wins
   }
 ]
 ```
+
+# Technologies Used
+### React
+### Tailwind Css
+### MongoDB
+### Node JS
+### Mongoose
+### Express
