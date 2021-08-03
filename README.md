@@ -11,14 +11,14 @@ Send
 
  - Password
 
-	   ```json
+	```json
 	{
           username: Sardorbek,
       	password: hello123
       }
       ```
       
-      ​     
+      
 
 Receive
 
@@ -32,7 +32,7 @@ Receive
 }
 ```
 
-​    
+
 
 ### AUTH LOGIN
 
@@ -127,4 +127,3 @@ Sorted by amount of wins
   }
 ]
 ```
-
