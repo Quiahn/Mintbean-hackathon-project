@@ -85,5 +85,5 @@ io.on("connection", (socket) => {
 
 
 //Port
-const PORT = 3001 || process.env.PORT
+const PORT = process.env.PORT
 http.listen(PORT, () => console.log(`Server is up and running at port ${PORT}`))
