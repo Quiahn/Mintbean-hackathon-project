@@ -63,24 +63,6 @@ io.on("connection", (socket) => {
 		const user = await User.findByIdAndUpdate({ _id: data.id }, { gamesPlayed: (data.gamesPlayed + 1) })
 	})
 
-	/*
-	{
-  current: {
-	drawsCount: 62,
-	gameEnd: 2,
-	data: {
-	  username: '123123123',
-	  id: '6108439ac905dc1f700fb4e8',
-	  cardsDrawn: 0,
-	  gamesPlayed: 103,
-	  gamesWon: 0,
-	  gamesLost: 0,
-	  date: '2021-08-02T19:12:26.136Z'
-	}
-  }
-}
-
-	*/
 	socket.on("game-ended", async (result) => {
 		if (result) {
 			if (result.gameEnd === 2) {

@@ -6,7 +6,7 @@ const User = require('../model/User')
 router.get('/leaderboard/:limit', async (req, res) => {
     let i = parseInt(req.params.limit)
     if (i) {
-        const user = await User.find().sort({ gamesWon: 0 }).limit(i)
+        const user = await User.find({}).sort({ "gamesWon": -1 }).limit(i)
         const responseModel = user.map(data => {
             return {
                 gamesWon: data.gamesWon,

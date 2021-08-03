@@ -21,7 +21,7 @@ function App() {
                 <Switch>
 
                     <Route path="/" exact>
-                        <div className="">
+                        <div className="h-full w-full">
                             <Home />
                         </div>
                     </Route>

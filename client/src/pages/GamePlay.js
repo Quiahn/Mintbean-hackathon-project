@@ -205,7 +205,6 @@ export default function GamePlay() {
                             <p className={`absolute ${sign === '<' ? "text-green-500" : "text-red-500"} z-20 text-6xl md:text-8xl`} style={{ top: `50%`, left: `50%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg)  translate(-50%, -50%)` }}>{sign}</p>
                             <p className={`absolute bg-green-700 text-white p-1 text-base md:text-xl`} style={{ top: `78%`, left: `10%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg) translate(-50%, -50%) z-20` }}>You: {playerHand.length}</p>
                             <p className={`absolute bg-red-700 text-white p-1 text-base md:text-xl`} style={{ top: `22%`, left: `80%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg) translate(-50%, -50%) z-20` }}>AI: {enemyHand.length}</p>
-                            <p className={`absolute bg-green-700 text-white p-1 text-base md:text-xl`} style={{ top: `80%`, left: `10%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg) translate(-50%, -50%) z-20` }}>{playerHand.length + enemyHand.length}</p>
                             {(sign === '=') ? warComponent() : null}
 
                             {enemyHand.map((card, i) => {

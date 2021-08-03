@@ -17,7 +17,7 @@ export default function Game() {
     const [id, setId] = useState()
     const [socket, setSocket] = useState(null)
     const [message, setMessage] = useState(null)
-    const [messages, setMessages] = useState([{ "message": "Welcome to Card Wars! Chat with others in the lobby here!", "from": "AI" }])
+    const [messages, setMessages] = useState([{ "message": "Welcome to Card Wars! Chat with others in the lobby here! To test this chat you can open a new incognito tab and chat with yourself! It works! ", "from": "AI" }])
     const [userData, setUserData] = useState({})
     const { setUserDataGlobal } = useContext(UserContext)
 
