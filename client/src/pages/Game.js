@@ -31,6 +31,7 @@ export default function Game() {
             }
         })
             .then((res) => {
+                console.log(res.data);
                 setUserData(res.data)
                 setUsername(res.data.username)
                 setId(res.data.id)
@@ -41,8 +42,7 @@ export default function Game() {
                 console.log(error);
                 setAuthorized(false)
             })
-        // eslint-disable-next-line
-    }, [])
+    }, [setUserDataGlobal])
 
     useEffect(() => {
         if (!username || !id) return
@@ -106,7 +106,7 @@ export default function Game() {
                 </div>
                 <div className='w-full grid grid-cols-1 md:grid-cols-3 place-content-center'>
                     <div className="w-full"> <Chat setMsg={setMessage} obj={messages} user={username} sendMsg={onSendMessage} /> </div>
-                    <div className="m-1">
+                    <div className="my-20 md:m-1">
                         <StatCards title={"Username"} stat={userData.username} />
                         <StatCards title={"Account Age (in Minutes)"} stat={new Date(new Date().getTime() - new Date(userData.date).getTime()).getMinutes()} />
                         <StatCards title={"Id"} stat={userData.id} />
