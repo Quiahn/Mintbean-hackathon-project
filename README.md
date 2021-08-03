@@ -9,9 +9,11 @@
 ![image of chat](https://www.cardwars.org/static/media/login.a6edd90b.png)
 
 ### Leaderboard based on win/lose ration
-![image of leaderboard](https://imgur.com/hZbfynz)
+![image of leaderboard](https://ibb.co/1qLWHXF)
+
 ### Ai to play against
-![](https://imgur.com/JWDNZcG)
+![image of gameplay](https://ibb.co/xYhYGJL)
+
 ### Account Stats
 ![image of account stats](https://www.cardwars.org/static/media/stats.c376fc98.png)
 
