@@ -16,12 +16,12 @@ function App() {
 
     return (
         <UserContext.Provider value={providerValue}>
-            <div className="flex flex-col h-screen">
+            <div className="flex flex-col h-screen ">
                 <Navbar />
                 <Switch>
 
                     <Route path="/" exact>
-                        <div className="h-full w-full">
+                        <div className="h-full w-full bg-yellow-600">
                             <Home />
                         </div>
                     </Route>

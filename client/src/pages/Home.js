@@ -10,6 +10,9 @@ export default function Home() {
             .then((res) => {
                 setLeaderData(res.data)
             })
+            .catch((err) => {
+                console.log(err);
+            })
     }, [])
 
     const leaderBoardMap = leaderData.map((user, i) => {
@@ -27,7 +30,7 @@ export default function Home() {
 
     return (
         <div className="bg-yellow-600 w-full h-full">
-            <div className="w-full h-full flex ">
+            <div className="w-full h-full flex bg-yellow-600">
                 <img className="m-auto object-contain" src={lgLogo} alt="Logo" />
             </div>
             <div className="bg-yellow-600">
@@ -37,7 +40,7 @@ export default function Home() {
                         <span className="block text-indigo-600 xl:inline">start playing</span>
                     </h1>
                     <div className="mt-5 sm:mt-8 sm:flex justify-center bg-yellow-600">
-                        <div className="mx-10 sm:mx-10 rounded-md shadow">
+                        <div className="mx-10 sm:mx-10 rounded-md shadow ">
                             <Link to="/signup">
                                 <button
                                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
@@ -49,7 +52,7 @@ export default function Home() {
                         <div className="mx-10 sm:mx-10 sm:mt-0 sm:ml-3">
                             <Link to="/signin">
                                 <button
-                                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
+                                    className="w-full  flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
                                 >
                                     Log In
                                 </button></Link>
@@ -57,7 +60,43 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="w-full h-full flex flex-col bg-yellow-600 overflow-x-hidden pt-40">
+
+            <div className="flex flex-row flex-wrap justify-center bg-yellow-600 my-10">
+
+                <div className="my-4 bg-white  mx-auto shadow-lg rounded-lg hover:shadow-xl transition duration-200 max-w-sm">
+                    <img className="rounded-t-lg" src="https://images.unsplash.com/photo-1622495894307-93143fc57155" alt="" />
+                    <div className="py-4 px-8">
+                        <h1 className="hover:cursor-pointer mt-2 text-gray-900 font-bold text-2xl tracking-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
+                        <p className="hover:cursor-pointer py-3 text-gray-600 leading-6">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora neque eum autem repellat iure perferendis, possimus blanditiis temporibus doloribus corrupti.</p>
+                    </div>
+                </div>
+
+                <div className="my-4 bg-white  mx-auto shadow-lg rounded-lg hover:shadow-xl transition duration-200 max-w-sm">
+                    <img className="rounded-t-lg" src="https://images.unsplash.com/photo-1622495894307-93143fc57155" alt="" />
+                    <div className="py-4 px-8">
+                        <h1 className="hover:cursor-pointer mt-2 text-gray-900 font-bold text-2xl tracking-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
+                        <p className="hover:cursor-pointer py-3 text-gray-600 leading-6">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora neque eum autem repellat iure perferendis, possimus blanditiis temporibus doloribus corrupti.</p>
+                    </div>
+                </div>
+
+                <div className="my-4 bg-white  mx-auto shadow-lg rounded-lg hover:shadow-xl transition duration-200 max-w-sm">
+                    <img className="rounded-t-lg" src="https://images.unsplash.com/photo-1622495894307-93143fc57155" alt="" />
+                    <div className="py-4 px-8">
+                        <h1 className="hover:cursor-pointer mt-2 text-gray-900 font-bold text-2xl tracking-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
+                        <p className="hover:cursor-pointer py-3 text-gray-600 leading-6">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora neque eum autem repellat iure perferendis, possimus blanditiis temporibus doloribus corrupti.</p>
+                    </div>
+                </div>
+
+                <div className="my-4 bg-white  mx-auto shadow-lg rounded-lg hover:shadow-xl transition duration-200 max-w-sm">
+                    <img className="rounded-t-lg" src="https://images.unsplash.com/photo-1622495894307-93143fc57155" alt="" />
+                    <div className="py-4 px-8">
+                        <h1 className="hover:cursor-pointer mt-2 text-gray-900 font-bold text-2xl tracking-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
+                        <p className="hover:cursor-pointer py-3 text-gray-600 leading-6">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora neque eum autem repellat iure perferendis, possimus blanditiis temporibus doloribus corrupti.</p>
+                    </div>
+                </div>
+
+            </div>
+            <div className="w-full flex flex-col bg-yellow-600 overflow-x-hidden pt-40">
                 <p className="text-lg text-center text-white font-bold m-5">Leaderboard</p>
                 <table className="rounded-t-lg m-5 w-5/6 mx-auto text-gray-50">
                     <tbody className="divide-y-2 divide-yellow-500">
