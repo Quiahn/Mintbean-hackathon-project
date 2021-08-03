@@ -38,6 +38,12 @@
   height: 153px;
 }
 
+.center_log {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .scroll {
   font-size: 50px;
   color: rgba(0, 0, 0, 0.2);
@@ -70,13 +76,6 @@
   .game-card {
     width: 72px;
     height: 105px;
-  }
-}
-
-@media only screen and (min-width: 1300px) {
-  .game-card {
-    width: 208px;
-    height: 303px;
   }
 }
 

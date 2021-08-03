@@ -12,7 +12,6 @@ export default function Navbar() {
     const [active, setActive] = useState(false);
     const { userDataGlobal, setUserDataGlobal } = useContext(UserContext)
 
-    console.log(userDataGlobal);
     const logOut = () => {
         cookies.remove("token")
         setUserDataGlobal({ loggedIn: false, data: null })
@@ -23,7 +22,6 @@ export default function Navbar() {
 
     useEffect(() => {
         if (cookies.get("token") !== null && cookies.get("token") !== undefined) {
-            console.log("GOOODD")
             setUserDataGlobal({ loggedIn: true, data: null })
         }
         // eslint-disable-next-line

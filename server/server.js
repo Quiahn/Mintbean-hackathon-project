@@ -16,9 +16,13 @@ const io = require('socket.io')(http, {
 //Import Routes
 const authRoute = require('./routes/auth')
 const gameRouter = require('./routes/game');
+const publicRouter = require('./routes/public');
+
+//Model
+const User = require('./model/User')
 
 //Connect to DB
-const mongooseOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+const mongooseOptions = { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 mongoose.connect(process.env.DB_URI, mongooseOptions, () => {
 	console.log('Server connected to the database')
 })
@@ -35,12 +39,10 @@ app.use(express.urlencoded({
 //Route Middlewares
 app.use('/api/user', authRoute)
 app.use('/api/game', gameRouter)
-
+app.use('/api/public', publicRouter)
 
 //Socket
 io.on("connection", (socket) => {
-
-
 	socket.on("message", (data) => {
 		socket.broadcast.emit("message", data)
 	})
@@ -53,7 +55,32 @@ io.on("connection", (socket) => {
 		socket.broadcast.emit("message", { message: `${data} Left the chat! `, from: "AI" })
 	})
 
-});
+	socket.on("disconnected", (data) => {
+		socket.broadcast.emit("message", { message: `${data} Left the chat! `, from: "AI" })
+	})
+
+	socket.on("game-started", async (data, error) => {
+		const user = await User.findByIdAndUpdate({ _id: data.id }, { gamesPlayed: (data.gamesPlayed + 1) })
+	})
+
+	socket.on("game-ended", async (result) => {
+		if (result) {
+			if (result.gameEnd === 2) {
+				await User.findByIdAndUpdate({ _id: result.data.id }, {
+					cardsDrawn: (result.data.cardsDrawn + result.drawsCount),
+					gamesWon: (result.data.gamesWon + 1)
+				})
+			}
+			else if (result.gameEnd === 1) {
+				await User.findByIdAndUpdate({ _id: result.data.id }, {
+					cardsDrawn: (result.data.cardsDrawn + result.drawsCount),
+					gamesLost: (result.data.gamesLost + 1)
+				})
+			}
+		}
+	})
+})
+
 
 
 
