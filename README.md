@@ -6,7 +6,7 @@ https://cardwars.org/
 ![image of creating an account](https://user-images.githubusercontent.com/73269468/128045962-14799bf1-e2d6-4553-b0dc-1c260c1ee3cd.png)
 
 ### Live chat in dashboard
-![image of chat](https://www.cardwars.org/static/media/login.a6edd90b.png)
+![image of chat](https://www.cardwars.org/static/media/chat.ed6ed247.png)
 
 ### Leaderboard based on win/lose ration
 ![image of leaderboard](https://i.ibb.co/850ZFx1/Screenshot-2021-08-03-115240.png)
