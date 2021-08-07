@@ -203,8 +203,8 @@ export default function GamePlay() {
                             <Card flip={true} cardId={red} isPlaying={true} pos={{ top: `50%`, left: `30%` }} />
                             <Card flip={true} cardId={blue} isPlaying={true} pos={{ top: `50%`, left: `70%` }} />
                             <p className={`absolute ${sign === '<' ? "text-green-500" : "text-red-500"} z-20 text-6xl md:text-8xl`} style={{ top: `50%`, left: `50%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg)  translate(-50%, -50%)` }}>{sign}</p>
-                            <p className={`absolute bg-green-700 text-white p-1 text-base md:text-xl`} style={{ top: `78%`, left: `10%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg) translate(-50%, -50%) z-20` }}>You: {playerHand.length}</p>
-                            <p className={`absolute bg-red-700 text-white p-1 text-base md:text-xl`} style={{ top: `22%`, left: `80%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg) translate(-50%, -50%) z-20` }}>AI: {enemyHand.length}</p>
+                            <p className={`absolute bg-green-700 text-white p-1 text-base md:text-xl`} style={{ top: `65%`, left: `67%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg) translate(-50%, -50%) z-20` }}>You: {playerHand.length}</p>
+                            <p className={`absolute bg-red-700 text-white p-1 text-base md:text-xl`} style={{ top: `30%`, left: `27%`, transform: `rotateZ(${getRandomIntInclusive(-10, 10)}deg) translate(-50%, -50%) z-20` }}>AI: {enemyHand.length}</p>
                             {(sign === '=') ? warComponent() : null}
 
                             {enemyHand.map((card, i) => {
